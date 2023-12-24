@@ -39,3 +39,9 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class News(models.Model):
+    news_title = models.CharField(max_length=100)
+    news_desc = models.CharField(max_length=100)
+    news_image = models.FileField(upload_to="news/", max_length=250, null=True, default=None)

@@ -29,27 +29,29 @@
     <div class="container">
       <h1 class="my-2 text-center">Some of our Best Shots📷📸</h1>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+
         <div class="col">
           <div class="card shadow-sm">
-            <video width="600" height="450" controls>
-              <source src="{{ video.file.url }}" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
+            <img src="/media/news/download.jpg" alt="" width="360vw" height="265vh">
             <div class="card-body">
-              <p class="card-text">{{ video.description }}</p>
+              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+                content. This content is a little bit longer.</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
                   <button type="button" class="btn btn-sm btn-outline-secondary">Dislike</button>
                 </div>
-                <small class="text-body-secondary">{{ video.upload_date }}</small>
+                <small class="text-body-secondary">54000023 views</small>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- <div class="col">
+        <div class="col">
           <div class="card shadow-sm">
+            <!-- {% for file_url in file_urls %}
+            <img src="{{ news }}" alt="File">
+            {% endfor %} -->
             <img src="https://source.unsplash.com/600x450/?manang" alt="">
             <div class="card-body">
               <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
@@ -114,7 +116,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>

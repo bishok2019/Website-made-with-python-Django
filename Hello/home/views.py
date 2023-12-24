@@ -6,17 +6,27 @@ from home.models import Like
 from home.models import Dislike
 from home.models import Comment
 from django.contrib import messages
+from .models import Video
+from .models import News  # Import the News model
+
 # Create your views here.
 def index(request):
+    
+    videos = Video.objects.all()
     my_dict = {"insert_me":"Hello! I am from views.py"}
     messages.success(request, "Welcome to our Bishok Multimedia")
+    
    # return HttpResponse("this is home page")
     return render(request,'index.html', my_dict)
     
 def about(request):
-    
+    # Retrieve all news objects
+    news_list = News.objects.all()
+
+    # Pass the news_list to the template
+    return render(request, 'about.html', {'news_list': news_list})
     #return HttpResponse("this is about page")
-    return render(request,'about.html')
+    
 
 def contact(request):
     #return HttpResponse("this is contact page")
