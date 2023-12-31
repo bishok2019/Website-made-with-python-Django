@@ -2,4 +2,265 @@
 
 {% block title %}Service{% endblock title %}
 
-{%block body%} this is Service Page {% endblock body %}
+{% block body %}
+this is Service page
+<style>
+  .card {
+    background-color: cadetblue;
+  }
+
+  .card:hover {
+    transform: translateZ(30px);
+    /* Increase the Z translation on hover for more depth */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    /* Shadow effect on hover */
+  }
+
+
+  .modal-content {
+    background-color: cadetblue;
+  }
+</style>
+
+<main>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <!-- Iterate over Video objects -->
+    {% for video_item in videos %}
+    <div class="col">
+      <div class="card shadow-sm" tabindex="4">
+        <!-- Display the video thumbnail -->
+        <video src="{{ video_item.file.url }}" class="thumbnail-video">
+          Your browser does not support the video tag.
+        </video>
+        <div class="card-body">
+          <p class="card-text">{{ video_item.description }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+
+            <small class="text-body-secondary">{{ video_item.title }} views</small>
+          </div>
+          <!-- Button to trigger modal -->
+          <button type="button" class="btn btn-primary play-video" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop" data-video-src="{{ video_item.file.url }}"
+            data-video-title="{{ video_item.title }}" data-video-description="{{ video_item.description }}">
+            Play video
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Video Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <video id="modalVideo" controls autoplay style="max-width: 100%; height: auto;">
+          Your browser does not support the video tag.
+        </video>
+        <h2 id="videoTitle"></h2>
+        <p id="videoDescription"></p>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">Dislike</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const playButtons = document.querySelectorAll('.play-video');
+
+    playButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const videoSrc = this.getAttribute('data-video-src');
+        const videoTitle = this.getAttribute('data-video-title');
+        const videoDescription = this.getAttribute('data-video-description');
+        const modalVideo = document.getElementById('modalVideo');
+        const videoTitleElement = document.getElementById('videoTitle');
+        const videoDescriptionElement = document.getElementById('videoDescription');
+        const modalTitle = document.getElementById('staticBackdropLabel'); // Get modal title element
+
+        modalVideo.src = videoSrc;
+        modalVideo.load();
+        videoTitleElement.textContent = videoTitle;
+        videoDescriptionElement.textContent = videoDescription;
+        modalTitle.textContent = videoTitle; // Set modal title dynamically
+      });
+    });
+  });
+</script>
+{% endblock body %}
+
+
+{% comment %} {% extends "base.html" %}
+
+{% block title %}Service{% endblock title %}
+
+{% block body %}
+this is Service page
+
+<main>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <!-- Iterate over Video objects -->
+    {% for video_item in videos %}
+    <div class="col">
+      <div class="card shadow-sm">
+        <!-- Display the video -->
+        <video src="{{ video_item.file.url }}">
+          Your browser does not support the video tag.
+        </video>
+        <div class="card-body">
+          <p class="card-text">{{ video_item.description }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Dislike</button>
+            </div>
+            <small class="text-body-secondary">{{ video_item.title }} views</small>
+          </div>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary play-video" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop" data-video-src="{{ video_item.file.url }}">
+            Play video
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mx-2">
+        <video id="modalVideo" controls autoplay style="max-width: 100%; height: auto;">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const playButtons = document.querySelectorAll('.play-video');
+
+    playButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const videoSrc = this.getAttribute('data-video-src');
+        const modalVideo = document.getElementById('modalVideo');
+        modalVideo.src = videoSrc;
+        modalVideo.load();
+      });
+    });
+  });
+</script>
+{% endblock body %}
+
+
+{% comment %} {% extends "base.html" %}
+
+{% block title %}Service{% endblock title %}
+
+{%block body%}
+this is Service page
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <main>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <!-- Iterate over Video objects -->
+            {% for video_item in videos %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <!-- Display the video -->
+                <video src="{{ video_item.file.url }}" controls autoplay>
+                  Your browser does not support the video tag.
+                </video>
+                <div class="card-body">
+                  <p class="card-text">{{ video_item.description }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Dislike</button>
+                    </div>
+                    <small class="text-body-secondary">{{ video_item.title }} views</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </main>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+<main>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <!-- Iterate over Video objects -->
+    {% for video_item in videos %}
+    <div class="col">
+      <div class="card shadow-sm">
+        <!-- Display the video -->
+        <video src="{{ video_item.file.url }}">
+          Your browser does not support the video tag.
+        </video>
+        <div class="card-body">
+          <p class="card-text">{{ video_item.description }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Dislike</button>
+            </div>
+            <small class="text-body-secondary">{{ video_item.title }} views</small>
+          </div>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Play video
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+
+{% endblock body %} {% endcomment %}
